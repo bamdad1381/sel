@@ -209,28 +209,12 @@ function create_config( )
   config = {
     enabled_plugins = {
     "",
-    "Admin",
-    "BroadCast",
-    "ID",
-    "Info_EN",
-    "Info_FA",
-    "Invite",
-    "OnService",
-    "Spammer1",
-    "BroadCast",
-    "Spammer2",
-    "Spammer3",
-    "Stats",
-    "Toti",
-    "Plugins",
-    "Admin"
+    "Plugins"
     },
-    sudo_users = {44444046},--Sudo users
+    sudo_users = {133615072},--Sudo users
     disabled_channels = {},
     moderation = {data = 'data/moderation.json'},
-    about_text = [[------B.N.K------
-----B.N.K Spammer & XY Bot----
-]],
+    about_text = [[]],
     help_text_realm = [[]],
     help_text = [[]]
   }
