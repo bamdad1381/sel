@@ -1,33 +1,18 @@
-do
--- https://github.com/SEEDTEAM/TeleSeed --
-local function block_user_callback(cb_extra, success, result)
-  local receiver = cb_extra.receiver
-  local user = 'user#id'..result.id
-  if success == 0 then
-    return send_large_msg(receiver, "I Can't Block This User!")
-  end
-  block_user(user, cb_ok, false)
-end
-end
+
 local function run(msg, matches)
- if msg.to.type == 'chat' then
-    local user = 'chat#id'..msg.to.id
- local user = matches[2]
-  if matches[1] == "user" then
-      user = 'user#id'..user
-      block_user(user, callback, false)
+    if matches[1]:lower() == '+' and is_sudo(msg) then
+        block_user("user#id"..matches[2],ok_cb,false)
+        return "User blocked"
     end
-    if not is_sudo(msg) then
-    return "ONLY SUDO"
-  end
-    return "User Has Been Blocked"
-  end
-end
- 
+    if matches[1]:lower() == '-' and is_sudo(msg) then
+	    unblock_user("user#id"..matches[2],ok_cb,false)
+        return "User unblocked"
+    end
 return {
   patterns = {
-    "^[#/!][Bb]lock (user) (%d+)$",
+	"^[!#/][Bb]lock (+) (%d+)$",
+	"^[!#/][Bb]lock (-) (%d+)$",
   },
   run = run,
- -- https://github.com/SEEDTEAM/TeleSeed --
 }
+end
