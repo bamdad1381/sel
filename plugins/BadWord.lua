@@ -1,7 +1,7 @@
 local function addword(msg, name)
     local hash = 'chat:'..msg.to.id..':badword'
     redis:hset(hash, name, 'newword')
-    return "New Word Added to BadWord List:\n>"..name
+    return "✖New Word Added to BadWord List:\n>"..name
 end
 
 local function get_variables_hash(msg)
@@ -29,7 +29,7 @@ function clear_commandbad(msg, var_name)
   --Save on redis  
   local hash = get_variables_hash(msg)
   redis:del(hash, var_name)
-  return 'Removed!'
+  return '✔Removed!'
 end
 
 local function list_variables2(msg, value)
@@ -67,7 +67,7 @@ function clear_commandsbad(msg, cmd_name)
   --Save on redis  
   local hash = get_variables_hash(msg)
   redis:hdel(hash, cmd_name)
-  return ''..cmd_name..'  Removed From BadWord List!'
+  return '✔'..cmd_name..'  Removed From BadWord List!'
 end
 
 local function run(msg, matches)
