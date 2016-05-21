@@ -2,7 +2,7 @@ do
 
 function run(msg, matches)
        if not is_sudo(msg) then
-              return "/!\Only Sudo Can Use It/!\"       end
+              return ""       end
   local tex = matches[1]
   local sps = matches[2]
   local sp = matches[3]
@@ -20,7 +20,7 @@ end
 
 return {
     patterns = {
-      "[!/#]clean (.*) (.*)$"
+      "[!/#][Cc]lean (.*) (.*)$"
     },
     run = run,
 }
