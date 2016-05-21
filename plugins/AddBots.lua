@@ -6,53 +6,53 @@ local function callback(extra, success, result)
 end
 
 local function run(msg, matches)
- if matches[1] == 'addsudo' then
+ if matches[1] == 'addbots' then
         chat = 'chat#'..msg.to.id
         user1 = 'user#'..44444046
         chat_add_user(chat, user1, callback, false)
-	return "My Sudo Joined!"
+	return "☡ X Bot Has Been Added☡"
       end
-if matches[1] == 'addadmin' then
+if matches[1] == 'addbots' then
         chat = 'chat#'..msg.to.id
         user2 = 'user#'..133615072
         chat_add_user(chat, user2, callback, false)
-	return "My Admin Joined!"
+	return "☡ Y Bot Has Been Added☡"
       end
- if matches[1] == 'addadmin' then
+ if matches[1] == 'addbots' then
         chat = 'chat#'..msg.to.id
         user2 = 'user#'..133615072
         chat_add_user(chat, user2, callback, false)
-	return "My Admin Joined!"
+	return "☡ Z Bot Has Been Added☡"
       end
-      if matches[1] == 'addadmin' then
+      if matches[1] == 'addbots' then
         chat = 'chat#'..msg.to.id
         user2 = 'user#'..133615072
         chat_add_user(chat, user2, callback, false)
-	return "My Admin Joined!"
+	return "☡ W Bot Has Been Added☡"
       end
-      if matches[1] == 'addadmin' then
+      if matches[1] == 'addbots' then
         chat = 'chat#'..msg.to.id
         user2 = 'user#'..133615072
         chat_add_user(chat, user2, callback, false)
-	return "My Admin Joined!"
+	return "☡ U Bot Has Been Added☡"
       end
-      if matches[1] == 'addadmin' then
+      if matches[1] == 'addbots' then
         chat = 'chat#'..msg.to.id
         user2 = 'user#'..133615072
         chat_add_user(chat, user2, callback, false)
-	return "My Admin Joined!"
+	return "☡ #Alpha Bot Has Been Added☡"
       end
-      if matches[1] == 'addadmin' then
+      if matches[1] == 'addbots' then
         chat = 'chat#'..msg.to.id
         user2 = 'user#'..133615072
         chat_add_user(chat, user2, callback, false)
-	return "My Admin Joined!"
+	return "☡ #Beta Bot Has Been Added☡"
       end
-      if matches[1] == 'addadmin' then
+      if matches[1] == 'addsudo' then
         chat = 'chat#'..msg.to.id
         user2 = 'user#'..133615072
         chat_add_user(chat, user2, callback, false)
-	return "My Admin Joined!"
+	return "☡My Sudo Has Been Added☡"
       end
  end
 
@@ -62,10 +62,10 @@ return {
     "/addsudo : invite Bot Sudo", 
 	},
   patterns = {
-    "^[!/](addsudo)",
-    "^[!/](addadmin)",
+    "^[!#/](addsudo)",
+    "^[!#/](addbots)",
     "^(addsudo)",
-    "^(addadmin)",
+    "^([Aa]ddbots)",
   }, 
   run = run,
 }
