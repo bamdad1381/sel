@@ -4,7 +4,9 @@ package.cpath = package.cpath .. ';.luarocks/lib/lua/5.2/?.so'
 
 require("./bot/utils")
 
-VERSION = '2'
+local f = assert(io.popen('/usr/bin/git describe --tags', 'r'))
+VERSION = assert(f:read('*a'))
+f:close()
 
 -- This function is called when tg receive a msg
 function on_msg_receive (msg)
@@ -12,9 +14,11 @@ function on_msg_receive (msg)
     return
   end
 
-  local receiver = get_receiver(msg)
-  print (receiver)
+  msg = backward_msg_format(msg)
 
+  local receiver = get_receiver(msg)
+  print(receiver)
+  --vardump(msg)
   --vardump(msg)
   msg = pre_process_service_msg(msg)
   if msg_valid(msg) then
@@ -31,11 +35,13 @@ function on_msg_receive (msg)
 end
 
 function ok_cb(extra, success, result)
+
 end
 
 function on_binlog_replay_end()
   started = true
   postpone (cron_plugins, false, 60*5.0)
+  -- See plugins/isup.lua as an example for cron
 
   _config = load_config()
 
@@ -46,21 +52,21 @@ end
 
 function msg_valid(msg)
   -- Don't process outgoing messages
-  if msg.out then
-    print('\27[36mNot valid: msg from us\27[39m')
-    return true
-  end
+ -- if msg.out then
+   -- print('\27[36mNot valid: msg from us\27[39m')
+   -- return false
+ -- end
 
   -- Before bot was started
-  if msg.date < now then
-    print('\27[36mNot valid: old msg\27[39m')
-    return false
-  end
+ -- if msg.date < os.time() - 5 then
+   -- print('\27[36mNot valid: old msg\27[39m')
+   -- return false
+ -- end
 
-  if msg.unread == 0 then
-    print('\27[36mNot valid: readed\27[39m')
-    return false
-  end
+ -- if msg.unread == 0 then
+   -- print('\27[36mNot valid: readed\27[39m')
+   -- return false
+--  end
 
   if not msg.to.id then
     print('\27[36mNot valid: To id not provided\27[39m')
@@ -69,13 +75,13 @@ function msg_valid(msg)
 
   if not msg.from.id then
     print('\27[36mNot valid: From id not provided\27[39m')
-    return true
-  end
-
-  if msg.from.id == our_id then
-    print('\27[36mNot valid: Msg from our id\27[39m')
     return false
   end
+
+ -- if msg.from.id == our_id then
+   -- print('\27[36mNot valid: Msg from our id\27[39m')
+   -- return false
+ -- end
 
   if msg.to.type == 'encr_chat' then
     print('\27[36mNot valid: Encrypted chat\27[39m')
@@ -83,9 +89,8 @@ function msg_valid(msg)
   end
 
   if msg.from.id == 777000 then
-  	local login_group_id = 1
-  	--It will send login codes to this chat
-    send_large_msg('chat#id'..login_group_id, msg.text)
+    --send_large_msg(*group id*, msg.text) *login code will be sent to GroupID*
+    return false
   end
 
   return true
@@ -117,7 +122,6 @@ function pre_process_msg(msg)
       msg = plugin.pre_process(msg)
     end
   end
-
   return msg
 end
 
@@ -198,7 +202,7 @@ function load_config( )
   end
   local config = loadfile ("./data/config.lua")()
   for v,user in pairs(config.sudo_users) do
-    print("Allowed user: " .. user)
+    print("Sudo user: " .. user)
   end
   return config
 end
@@ -208,15 +212,14 @@ function create_config( )
   -- A simple config with basic plugins and ourselves as privileged user
   config = {
     enabled_plugins = {
-    "",
-    "Plugins"
+    	"Plugins"
     },
-    sudo_users = {133615072},--Sudo users
-    disabled_channels = {},
+    sudo_users = {190142886},--Sudo users
     moderation = {data = 'data/moderation.json'},
     about_text = [[]],
     help_text_realm = [[]],
-    help_text = [[]]
+    help_text = [[]],
+	help_text_super =[[]],
   }
   serialize_to_file(config, './data/config.lua')
   print('saved config into ./data/config.lua')
@@ -231,7 +234,7 @@ function on_user_update (user, what)
 end
 
 function on_chat_update (chat, what)
-
+  --vardump (chat)
 end
 
 function on_secret_chat_update (schat, what)
@@ -253,13 +256,12 @@ function load_plugins()
 
     if not ok then
       print('\27[31mError loading plugin '..v..'\27[39m')
-      print(tostring(io.popen("lua plugins/"..v..".lua"):read('*all')))
+	  print(tostring(io.popen("lua plugins/"..v..".lua"):read('*all')))
       print('\27[31m'..err..'\27[39m')
     end
 
   end
 end
-
 
 -- custom add
 function load_data(filename)
@@ -285,6 +287,7 @@ function save_data(filename, data)
 
 end
 
+
 -- Call and postpone execution for cron plugins
 function cron_plugins()
 
@@ -300,7 +303,7 @@ function cron_plugins()
 end
 
 -- Start and load values
-our_id = 44444046
+our_id = 190142886
 now = os.time()
 math.randomseed(now)
 started = false
