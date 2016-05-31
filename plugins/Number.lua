@@ -1,7 +1,7 @@
 do
 
 function run(msg, matches)     -- Bot number     -- first name        -- last name
-send_contact(get_receiver(msg), "+19177454702", "Mr Jacki", "", ok_cb, false)
+send_contact(get_receiver(msg), "+19177454702", "Epicure", "", ok_cb, false)
 end
 
 return {
